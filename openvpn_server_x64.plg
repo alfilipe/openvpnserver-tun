@@ -193,10 +193,10 @@ The 'install' script.
 <FILE Run="/bin/bash">
 <INLINE>
 mkdir -p /dev/net
-if [ ! -c /dev/net/tap ]; then
-	mknod /dev/net/tap c 10 200
+if [ ! -c /dev/net/tun ]; then
+	mknod /dev/net/tun c 10 200
 fi
-modprobe tap
+modprobe tun
 echo 1 > /proc/sys/net/ipv4/ip_forward
 mkdir -p /var/run/openvpnserver/
  
