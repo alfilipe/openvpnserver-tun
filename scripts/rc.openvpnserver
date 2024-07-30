@@ -66,6 +66,7 @@ ARGUMENTS_FILE="/usr/local/emhttp/plugins/openvpnserver/openvpnserver.args"
 
 [ -f $ARGUMENTS_FILE ] && source $ARGUMENTS_FILE
 
+NETWORK=$NETWORK_NEW
 NETMASK=$NETMASK_NEW
 POOL=$POOL_NEW
 SERVER_PORT=$SERVER_PORT_NEW
@@ -79,6 +80,7 @@ SUBNET=$SUBNET_NEW
 LAN_SUBNET=$LAN_SUBNET_NEW
 COMP_LZO=$COMP_LZO_NEW
 IPP=$IPP_NEW
+DHCP_1=$DHCP_1_NEW
 DNS_1=$DNS_1_NEW
 DNS_2=$DNS_2_NEW
 DNS_3=$DNS_3_NEW
@@ -98,6 +100,7 @@ TLSENCRYPT=$TLSENCRYPT_NEW
 write_cfg()
 {
   echo "# openvpnserver plugin configuration file" > /boot/config/plugins/openvpnserver/openvpnserver.cfg
+  echo "NETWORK=$NETWORK" >> /boot/config/plugins/openvpnserver/openvpnserver.cfg
   echo "NETMASK=$NETMASK" >> /boot/config/plugins/openvpnserver/openvpnserver.cfg
   echo "POOL=\"$POOL\"" >> /boot/config/plugins/openvpnserver/openvpnserver.cfg
   echo "SERVER_PORT=$SERVER_PORT" >> /boot/config/plugins/openvpnserver/openvpnserver.cfg
@@ -111,6 +114,7 @@ write_cfg()
   echo "LAN_SUBNET=\"$LAN_SUBNET\"" >> /boot/config/plugins/openvpnserver/openvpnserver.cfg
   echo "COMP_LZO=\"$COMP_LZO\"" >> /boot/config/plugins/openvpnserver/openvpnserver.cfg
   echo "IPP=\"$IPP\"" >> /boot/config/plugins/openvpnserver/openvpnserver.cfg
+  echo "DHCP_1=\"$DHCP_1\"" >> /boot/config/plugins/openvpnserver/openvpnserver.cfg
   echo "DNS_1=\"$DNS_1\"" >> /boot/config/plugins/openvpnserver/openvpnserver.cfg
   echo "DNS_2=\"$DNS_2\"" >> /boot/config/plugins/openvpnserver/openvpnserver.cfg
   echo "DNS_3=\"$DNS_3\"" >> /boot/config/plugins/openvpnserver/openvpnserver.cfg
@@ -143,9 +147,9 @@ if [ ! -f /var/run/openvpnserver/openvpnserver.pid ]; then
 
 	if [ -f /var/run/openvpnserver/openvpnserver.pid ]; then
 		echo "OK... Started"
-    echo "Bridging tap0 to br0"
-    brctl addif br0 tap0
-    ifconfig tap0 0.0.0.0 promisc up
+    #echo "Bridging tap0 to br0"
+    #brctl addif br0 tap0
+    #ifconfig tap0 0.0.0.0 promisc up
     echo "Adding iptables rule ....."
     openvpnserver_iptables_add;
   else
@@ -195,9 +199,12 @@ else
 fi
 POOL_MOD=$(cat /boot/config/plugins/openvpnserver/openvpnserver.cfg |grep POOL | sed 's/POOL=//' |sed 's/\"//g')
 LOCAL_SERVER_IP=$(/usr/local/emhttp/plugins/openvpnserver/scripts/rc.openvpnserver serverip)
-echo "server-bridge $LOCAL_SERVER_IP $NETMASK $POOL_MOD" > $SERVER_PATH/openvpnserver.ovpn
+echo "server $NETWORK $NETMASK" > $SERVER_PATH/openvpnserver.ovpn
+####echo "local $LOCAL_SERVER_IP" >> $SERVER_PATH/openvpnserver.ovpn ## this is on old config, it is realy necessary?
+#echo "server-bridge $LOCAL_SERVER_IP $NETMASK $POOL_MOD" > $SERVER_PATH/openvpnserver.ovpn
 
-echo "dev tap" >> $SERVER_PATH/openvpnserver.ovpn
+#echo "dev tap" >> $SERVER_PATH/openvpnserver.ovpn
+echo "dev tun" >> $SERVER_PATH/openvpnserver.ovpn
 echo "port $SERVER_PORT" >> $SERVER_PATH/openvpnserver.ovpn
 echo "proto $PROTOCOL" >> $SERVER_PATH/openvpnserver.ovpn
 
@@ -224,16 +231,18 @@ if [ "$IPP" == "ipp.txt" ]; then
 	echo "ifconfig-pool-persist /boot/config/plugins/openvpnserver/$IPP" >> $SERVER_PATH/openvpnserver.ovpn
 fi
 
-echo "push "\""explicit-exit-notify""\"" >> $SERVER_PATH/openvpnserver.ovpn
-echo "push "\""dhcp-pre-release""\"" >> $SERVER_PATH/openvpnserver.ovpn
-echo "push "\""dhcp-renew""\"" >> $SERVER_PATH/openvpnserver.ovpn
-echo "push "\""route-metric 101""\"" >> $SERVER_PATH/openvpnserver.ovpn
+#echo "push "\""explicit-exit-notify""\"" >> $SERVER_PATH/openvpnserver.ovpn
+#echo "push "\""dhcp-pre-release""\"" >> $SERVER_PATH/openvpnserver.ovpn
+#echo "push "\""dhcp-renew""\"" >> $SERVER_PATH/openvpnserver.ovpn
+#echo "push "\""route-metric 101""\"" >> $SERVER_PATH/openvpnserver.ovpn
 
-if [ "$DNS_1" == "GOOGLE" ]; then
+#if [ "$DNS_1" == "GOOGLE" ]; then
+if [ "$DHCP_1" == "GOOGLE" ]; then
    echo "push "\""dhcp-option DNS 8.8.8.8""\"" >> $SERVER_PATH/openvpnserver.ovpn
    echo "push "\""dhcp-option DNS 8.8.4.4""\"" >> $SERVER_PATH/openvpnserver.ovpn
 
-elif [ "$DNS_1" == "OPENDNS" ]
+#elif [ "$DNS_1" == "OPENDNS" ]
+elif [ "$DHCP_1" == "OPENDNS" ]
 then
    echo "push "\""dhcp-option DNS 208.67.222.222""\"" >> $SERVER_PATH/openvpnserver.ovpn
    echo "push "\""dhcp-option DNS 208.67.222.220""\"" >> $SERVER_PATH/openvpnserver.ovpn
@@ -388,7 +397,8 @@ fi
 
 openvpnserver_get_vpnserver()
 {
-   VPN_SERVER=$( ifconfig tap0 | grep "inet " | awk '{print $2}')
+   #VPN_SERVER=$( ifconfig tap0 | grep "inet " | awk '{print $2}')
+   VPN_SERVER=$( ifconfig tun0 | grep "inet " | awk '{print $2}')
    echo $VPN_SERVER
 }
 
@@ -557,7 +567,7 @@ tls-client
 $CIPHER
 $HASH_ALGO
 client
-dev tap
+dev tun
 proto $PROTOCOL
 port $PORT
 nobind
@@ -959,14 +969,32 @@ fi
 openvpnserver_iptables_add() {
 source /boot/config/plugins/openvpnserver/openvpnserver.cfg
 
-iptables -A INPUT -i tap0 -j ACCEPT
-iptables -A FORWARD -i br0 -j ACCEPT
+#iptables -A INPUT -i tap0 -j ACCEPT
+#iptables -A FORWARD -i br0 -j ACCEPT
+
+#NIC=$(ip route | grep default | sed -e "s/^.*dev.//" -e "s/.proto.*//" | awk '{print $1'})
+NIC=$(ip -4 route ls | grep default | grep -Po '(?<=dev )(\S+)' | head -1)
+echo $NIC
+IPRULES1="iptables -t nat -A POSTROUTING -s $NETWORK/24 -o $NIC -j MASQUERADE"
+eval $IPRULES1
+
+iptables -t nat -L POSTROUTING -n -v --line-numbers | grep $NETWORK
 
 }
 
 openvpnserver_iptables_delete() {
 source /boot/config/plugins/openvpnserver/openvpnserver.cfg
-
+for line_num in $(iptables -vn -t nat --line-numbers --list POSTROUTING |grep $NETWORK|awk '{print $1}')
+do
+  LINES="$line_num $LINES"
+done
+# Delete the lines, last to first.
+for line in $LINES
+do
+  iptables -t nat -D POSTROUTING $line
+done
+unset LINES
+iptables -t nat -L POSTROUTING -n -v --line-numbers | grep $NETWORK
 }
 
 # read our configuration

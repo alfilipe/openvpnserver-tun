@@ -1,10 +1,10 @@
 <?xml version='1.0' standalone='yes'?>
 
 <!DOCTYPE PLUGIN [
-<!ENTITY name      "openvpnserver">
+<!ENTITY name      "openvpnserver-tun">
 <!ENTITY author    "alfilipe">
 <!ENTITY plgauthor    "alfilipe">
-<!ENTITY version   "2023.07.24.04-tap">
+<!ENTITY version   "2023.07.24.04-tun">
 <!ENTITY launch    "Settings/&name;">
 <!ENTITY gitURL    "https://github.com/&plgauthor;">
 <!ENTITY gitpkgURL    "&gitURL;/packages/raw/master">

@@ -1,9 +1,9 @@
 Menu="NetworkServices"
 Icon="openvpnserver.png"
 Version="2022.11.28.01-tap"
-Author="DeBaschdi"
+Author="alfilipe"
 Type="xmenu"
-Title="OpenVPN Server TAP Mode"
+Title="OpenVPN Server TUN Mode"
 Tabs="true"
 ---
 <link type="text/css" rel="stylesheet" href="/plugins/openvpnserver/styles/openvpnserver.css">
@@ -363,6 +363,7 @@ function validateForm() {
   document.getElementById('LAN_SUBNET').disabled = false;
   document.getElementById('COMP_LZO').disabled = false;
   document.getElementById('IPP').disabled = false;
+  document.getElementById('DHCP_1').disabled = false;
   document.getElementById('DNS_1').disabled = false;
   document.getElementById('DNS_2').disabled = false;
   document.getElementById('DNS_3').disabled = false;
@@ -396,6 +397,7 @@ function checkRUNNING() {
     form.LAN_SUBNET.disabled = true;
     form.COMP_LZO.disabled = true;
     form.IPP.disabled = true;
+    form.DHCP_1.disabled = true;
     form.DNS_1.disabled = true;
     form.DNS_2.disabled = true;
     form.DNS_3.disabled = true;
