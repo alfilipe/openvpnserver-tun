@@ -53,10 +53,10 @@ $arguments .= "TLSENCRYPT_NEW=\"$TLSENCRYPT\"\n";
 
 echo "Please wait while updating configuration...";
 
-$file = "/usr/local/emhttp/plugins/openvpnserver/openvpnserver.args";
+$file = "/usr/local/emhttp/plugins/openvpnserver-tun/openvpnserver.args";
 file_put_contents($file, $arguments);
-shell_exec("/usr/local/emhttp/plugins/openvpnserver/scripts/rc.openvpnserver updatecfg");
-shell_exec("/usr/local/emhttp/plugins/openvpnserver/scripts/rc.openvpnserver writeconf");
+shell_exec("/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver updatecfg");
+shell_exec("/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver writeconf");
 ?>
 
 <HTML>

@@ -2,19 +2,19 @@ Menu="openvpnserver:1"
 Title="Cert and Misc Settings "
 ---
 <?php
-$openvpnserver_cert_cfg = parse_ini_file( "/boot/config/plugins/openvpnserver/openvpnserver_cert.cfg");
+$openvpnserver_cert_cfg = parse_ini_file( "/boot/config/plugins/openvpnserver-tun/openvpnserver_cert.cfg");
 $EASYRSA_VERSION_FILE = $openvpnserver_cert_cfg['SERVER_PATH'] . "/easyrsa_versions_full_path.txt";
 ?>
 
 <div>
-<form name="openvpnserver_cert_settings" method="POST" action="/plugins/openvpnserver/openvpnserver_cert_submit.php" target="progressFrame" onsubmit="validateForm_cert();">
+<form name="openvpnserver_cert_settings" method="POST" action="/plugins/openvpnserver-tun/openvpnserver_cert_submit.php" target="progressFrame" onsubmit="validateForm_cert();">
 <table class="tablesorter openvpnserversettings">
-<thead><th colspan="2"><b>OpenVPN Server Cert/Misc Configuration:&nbsp;<img src='/plugins/openvpnserver/images/new_config.png'></b></th><th class="header"></th></thead>
+<thead><th colspan="2"><b>OpenVPN Server Cert/Misc Configuration:&nbsp;<img src='/plugins/openvpnserver-tun/images/new_config.png'></b></th><th class="header"></th></thead>
 <table class="tablesorter">
 
               <?if ($pids=="0"):?>
     <td>
-        <th colspan="2"><b>Status:&nbsp;</b><img src='/plugins/openvpnserver/images/device_status.png'>
+        <th colspan="2"><b>Status:&nbsp;</b><img src='/plugins/openvpnserver-tun/images/device_status.png'>
               <?if ($pids=="0"):?>
 		<span class="red"><b>Generating cert for the server is still running, please wait !!! refresh the page for progress updates.
              <?endif;?>
@@ -221,7 +221,7 @@ fclose($handle);
 
  <form name="openvpnserver_easyrsa_verson" method="POST" action="/update.php" target="progressFrame">
         <div>
-                <input type="hidden" name="#command" value="/plugins/openvpnserver/scripts/rc.openvpnserver">
+                <input type="hidden" name="#command" value="/plugins/openvpnserver-tun/scripts/rc.openvpnserver">
                 <input type="hidden" name="#arg[1]" value="get_easy-rsa_version">
                 <button style="font-size:15px">Update the list of easyrsa version <i class="fa fa-download"></i></button>
                 <blockquote class="inline_help">

@@ -8,7 +8,7 @@
 <!ENTITY launch    "Settings/&name;">
 <!ENTITY gitURL    "https://github.com/&plgauthor;">
 <!ENTITY gitpkgURL    "&gitURL;/&name;/releases/download/&version;/">
-<!ENTITY pluginURL "https://raw.githubusercontent.com/&plgauthor;/openvpnserver-tun/master/openvpn_server_x64.plg"> 
+<!ENTITY pluginURL "https://raw.githubusercontent.com/&plgauthor;/openvpnserver-tun/master/openvpn_server_x64.plg">
 <!ENTITY pkgURL	 "https://mirrors.slackware.com/slackware/">
 <!ENTITY pkgs 	    "/boot/packages/">
 <!ENTITY plugin	 "/boot/config/plugins/&name;">
@@ -198,7 +198,7 @@ if [ ! -c /dev/net/tun ]; then
 fi
 modprobe tun
 echo 1 > /proc/sys/net/ipv4/ip_forward
-mkdir -p /var/run/openvpnserver/
+mkdir -p /var/run/openvpnserver-tun/
  
 if [ ! -d &emhttp; ]; then
 	mkdir -p &emhttp;
@@ -210,7 +210,7 @@ chmod 0770 &emhttp;/event/*
 chmod 0770 &emhttp;/scripts/*
 
 cp -nr &emhttp;/&name; /boot/config/plugins
-ln -sf /usr/local/emhttp/plugins/openvpnserver/scripts/rc.openvpnserver /etc/rc.d/
+ln -sf /usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver /etc/rc.d/
 </INLINE>
 </FILE>
 
@@ -231,7 +231,7 @@ rm -f /etc/rc.d/rc.openvpnserver
 </INLINE>
 </FILE>
 
-<FILE Name="/var/local/emhttp/plugins/openvpnserver/check-my-ip.sh" Mode="0770">
+<FILE Name="/var/local/emhttp/plugins/openvpnserver-tun/check-my-ip.sh" Mode="0770">
 <INLINE>
 <![CDATA[
 #!/bin/bash
@@ -245,7 +245,7 @@ fi
 </INLINE>
 </FILE>
 
-<FILE Name="/var/log/plugins/openvpnserver">
+<FILE Name="/var/log/plugins/openvpnserver-tun">
 <INLINE>
 <![CDATA[
 ]]>

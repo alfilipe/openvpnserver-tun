@@ -3,23 +3,23 @@ Menu="openvpnserver:2"
 Title="Server config"
 Markdown="false"
 ---
-<link type="text/css" rel="stylesheet" href="/plugins/openvpnserver/styles/openvpnserver.css">
+<link type="text/css" rel="stylesheet" href="/plugins/openvpnserver-tun/styles/openvpnserver.css">
   
 <?php
-$CHECKFOLDERVPNTMP = shell_exec("/usr/local/emhttp/plugins/openvpnserver/scripts/rc.openvpnserver checkfolder");
-$AUTO_SERVER_ADDR = shell_exec("/usr/local/emhttp/plugins/openvpnserver/scripts/rc.openvpnserver serverip");
+$CHECKFOLDERVPNTMP = shell_exec("/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver checkfolder");
+$AUTO_SERVER_ADDR = shell_exec("/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver serverip");
 $CHECKFOLDERVPN = trim($CHECKFOLDERVPNTMP);
 ?>
 <div>
-<form name="openvpnserver_settings" method="POST" action="/plugins/openvpnserver/openvpnserver_submit.php" target="progressFrame" onsubmit="validateForm();">
+<form name="openvpnserver_settings" method="POST" action="/plugins/openvpnserver-tun/openvpnserver_submit.php" target="progressFrame" onsubmit="validateForm();">
 
 <table class="tablesorter openvpnserversettings">
-<thead><th colspan="2"><b>OpenVPN Server Configuration:&nbsp;<img src='/plugins/openvpnserver/images/new_config.png'></b></th><th class="header"></th></thead>
+<thead><th colspan="2"><b>OpenVPN Server Configuration:&nbsp;<img src='/plugins/openvpnserver-tun/images/new_config.png'></b></th><th class="header"></th></thead>
 <table class="tablesorter">
 
             <?if ($pids=="0"):?>
        <td>
-           <th colspan="2"><b>Status:&nbsp;</b><img src='/plugins/openvpnserver/images/device_status.png'>
+           <th colspan="2"><b>Status:&nbsp;</b><img src='/plugins/openvpnserver-tun/images/device_status.png'>
             <?if ($pids=="0"):?>
 		<span class="red"><b>Generating cert for the server is still running, please wait !!! refresh the page for progress updates.
             <?endif;?>
@@ -34,7 +34,7 @@ $CHECKFOLDERVPN = trim($CHECKFOLDERVPNTMP);
     <div><left><b>To change configuration - Press Stop in "Control Action"</b></center></div>
   <?endif;?>
 	
-<form name="openvpnserver_settings" method="POST" action="/plugins/openvpnserver/openvpnserver_submit.php" target="progressFrame" onsubmit="validateForm();">
+<form name="openvpnserver_settings" method="POST" action="/plugins/openvpnserver-tun/openvpnserver_submit.php" target="progressFrame" onsubmit="validateForm();">
 
  <table>   
 	<dl>
@@ -359,7 +359,7 @@ $CHECKFOLDERVPN = trim($CHECKFOLDERVPNTMP);
 <hr />     
  <form name="openvpnserver_installdef" method="POST" action="/update.php" target="progressFrame">
 	<div>
-		<input type="hidden" name="#command" value="/plugins/openvpnserver/scripts/rc.openvpnserver">
+		<input type="hidden" name="#command" value="/plugins/openvpnserver-tun/scripts/rc.openvpnserver">
                 <input type="hidden" name="#arg[1]" value="default_value_server">
 		<button style="font-size:15px">Restore to default values <i class="fa fa-copy"></i></button>
 		<blockquote class="inline_help">

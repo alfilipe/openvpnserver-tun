@@ -6,40 +6,40 @@ Type="xmenu"
 Title="OpenVPN Server TUN Mode"
 Tabs="true"
 ---
-<link type="text/css" rel="stylesheet" href="/plugins/openvpnserver/styles/openvpnserver.css">
+<link type="text/css" rel="stylesheet" href="/plugins/openvpnserver-tun/styles/openvpnserver.css">
 <?php
 exec("pgrep -f dhparam", $output, $pids);
-$openvpnserver_cfg = parse_ini_file( "/boot/config/plugins/openvpnserver/openvpnserver.cfg");
-$openvpnserver_cert_cfg = parse_ini_file( "/boot/config/plugins/openvpnserver/openvpnserver_cert.cfg");
-$AUTO_SERVER_ADDR = shell_exec("/usr/local/emhttp/plugins/openvpnserver/scripts/rc.openvpnserver serverip");
-$VALID_USER = shell_exec("/usr/local/emhttp/plugins/openvpnserver/scripts/rc.openvpnserver view_valid_user");
-$ONLINE_USER = shell_exec("/usr/local/emhttp/plugins/openvpnserver/scripts/rc.openvpnserver view_online_user");
-$REVOKED_USER = shell_exec("/usr/local/emhttp/plugins/openvpnserver/scripts/rc.openvpnserver view_revoked_user");
-$openvpnserver_running = file_exists("/var/run/openvpnserver/openvpnserver.pid") ? "yes" : "no";
+$openvpnserver_cfg = parse_ini_file( "/boot/config/plugins/openvpnserver-tun/openvpnserver.cfg");
+$openvpnserver_cert_cfg = parse_ini_file( "/boot/config/plugins/openvpnserver-tun/openvpnserver_cert.cfg");
+$AUTO_SERVER_ADDR = shell_exec("/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver serverip");
+$VALID_USER = shell_exec("/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver view_valid_user");
+$ONLINE_USER = shell_exec("/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver view_online_user");
+$REVOKED_USER = shell_exec("/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver view_revoked_user");
+$openvpnserver_running = file_exists("/var/run/openvpnserver-tun/openvpnserver.pid") ? "yes" : "no";
 $ovpncertsfolder = file_exists($openvpnserver_cert_cfg['SERVER_PATH'] . "/easy-rsa/easyrsa3/pki/ca.crt") ? "yes" : "no";
 $certsw = $openvpnserver_cert_cfg['SERVER_PATH'] . "/easy-rsa/easyrsa3/";
 $ovpncertsoftware = file_exists($certsw) ? "yes" : "no";
 $openvpnserver_config = file_exists($openvpnserver_cert_cfg['SERVER_PATH'] . "/openvpnserver.ovpn") ? "yes" : "no";
-$OPEN_VPN_INSTALLED = shell_exec("/usr/local/emhttp/plugins/openvpnserver/scripts/rc.openvpnserver getlocalversion");
-$internet_myip = shell_exec("/var/local/emhttp/plugins/openvpnserver/check-my-ip.sh");
-$LAN_IP = shell_exec("/usr/local/emhttp/plugins/openvpnserver/scripts/rc.openvpnserver get_gw");
-$VPN_SERVER_IP = shell_exec("/usr/local/emhttp/plugins/openvpnserver/scripts/rc.openvpnserver get_vpnserver");
+$OPEN_VPN_INSTALLED = shell_exec("/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver getlocalversion");
+$internet_myip = shell_exec("/var/local/emhttp/plugins/openvpnserver-tun/check-my-ip.sh");
+$LAN_IP = shell_exec("/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver get_gw");
+$VPN_SERVER_IP = shell_exec("/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver get_vpnserver");
 $NW = $openvpnserver_cfg['NETWORK'];
 $SERVER_FILE = $openvpnserver_cert_cfg['SERVER_PATH'] . "/openvpnserver.ovpn";
 $CHECK_IPTABELS_NAT = shell_exec("iptables -t nat -L POSTROUTING -n -v --line-numbers | grep '$NW'");
 $check_netstat = shell_exec("ip route show");
-$CHECKFOLDERVPNTMP = shell_exec("/usr/local/emhttp/plugins/openvpnserver/scripts/rc.openvpnserver checkfolder");
+$CHECKFOLDERVPNTMP = shell_exec("/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver checkfolder");
 $CHECKFOLDERVPN = trim($CHECKFOLDERVPNTMP);
 $CRYPTO_tmp = $openvpnserver_cert_cfg['CRYPTO'];
 $CRYPTO = strtoupper($CRYPTO_tmp);
 $SERVERCONFIGPATH = $openvpnserver_cert_cfg['SERVER_PATH'];
 $EASYRSA_VERSION_INSTALLED = @file_get_contents("$SERVERCONFIGPATH/installed_easyrsa.txt");
 $EASYRSA_LATEST_COMMIT = @file_get_contents("$SERVERCONFIGPATH/easyrsa_latest_commit.txt");
-$LATEST_COMMIT = shell_exec("/usr/local/emhttp/plugins/openvpnserver/scripts/rc.openvpnserver commit_date_easyrsa");
+$LATEST_COMMIT = shell_exec("/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver commit_date_easyrsa");
 $POOL = $openvpnserver_cfg['POOL'];
 
- if (file_exists('/var/local/emhttp/plugins/openvpnserver/add_client.log'))
-	{$add_client_log = file_get_contents('/var/local/emhttp/plugins/openvpnserver/add_client.log');} 
+ if (file_exists('/var/local/emhttp/plugins/openvpnserver-tun/add_client.log'))
+	{$add_client_log = file_get_contents('/var/local/emhttp/plugins/openvpnserver-tun/add_client.log');} 
 
  if (file_exists('/var/log/openvpnserver-status.log')) 
     {$openvpnststus_log = file_get_contents('/var/log/openvpnserver-status.log');} 
@@ -57,7 +57,7 @@ if (file_exists("$SERVERCONFIGPATH/openvpnservercert.out"))
 
 <?if ($pids=="0"):?>
        <td>
-           <th colspan="2"><b>Status:&nbsp;</b><img src='/plugins/openvpnserver/images/device_status.png'>
+           <th colspan="2"><b>Status:&nbsp;</b><img src='/plugins/openvpnserver-tun/images/device_status.png'>
                   <?if ($pids=="0"):?>
                        <span class="red"><b>Generating cert for the server is still running, please wait !!! refresh the page for progress updates.
 			<br>    
@@ -75,7 +75,7 @@ if (file_exists("$SERVERCONFIGPATH/openvpnservercert.out"))
 
 	<table class="tablesorter openvpnserver">
         <thead>
-        <th colspan="2"><b>Status:&nbsp;</b><img src='/plugins/openvpnserver/images/device_status.png'>
+        <th colspan="2"><b>Status:&nbsp;</b><img src='/plugins/openvpnserver-tun/images/device_status.png'>
                 <?if ($openvpnserver_running=="yes"):?>
                         <span class="green"><b>OpenVPN Server is RUNNING</b></span>
                 <?else:?>
@@ -192,7 +192,7 @@ if (file_exists("$SERVERCONFIGPATH/openvpnservercert.out"))
         <tr>
         <td width="20%">
 	<form name="start_openvpnserver" method="POST" action="/update.php" target="progressFrame">
-                <input type="hidden" name="#command" value="/plugins/openvpnserver/scripts/rc.openvpnserver">
+                <input type="hidden" name="#command" value="/plugins/openvpnserver-tun/scripts/rc.openvpnserver">
                 <input type="hidden" name="#arg[1]" value="stop">
         <button style="font-size:15px">Stop OpenVPN Server  <i class="fa fa-stop"></i></button>        
 	</form>
@@ -202,7 +202,7 @@ if (file_exists("$SERVERCONFIGPATH/openvpnservercert.out"))
 	<td width="20%">
 	<hr />
 	<form name="restart_openvpnserver" method="POST" action="/update.php" target="progressFrame">
-                <input type="hidden" name="#command" value="/plugins/openvpnserver/scripts/rc.openvpnserver">
+                <input type="hidden" name="#command" value="/plugins/openvpnserver-tun/scripts/rc.openvpnserver">
 				<input type="hidden" name="#arg[4]" value="restart">
 				<button style="font-size:15px">Restart OpenVPN Server  <i class="fa fa-refresh"></i></button>        
 	</form>
@@ -216,7 +216,7 @@ if (file_exists("$SERVERCONFIGPATH/openvpnservercert.out"))
 	 <tr>
           <td width="30%">
 			<form name="start_openvpnserver" method="POST" action="/update.php" target="progressFrame">
-                <input type="hidden" name="#command" value="/plugins/openvpnserver/scripts/rc.openvpnserver">
+                <input type="hidden" name="#command" value="/plugins/openvpnserver-tun/scripts/rc.openvpnserver">
                 <input type="hidden" name="#arg[2]" value="start">
 				<button style="font-size:15px">Start OpenVPN Server  <i class="fa fa-play"></i></button>
 				<blockquote class="inline_help">
@@ -247,7 +247,7 @@ if (file_exists("$SERVERCONFIGPATH/openvpnservercert.out"))
       <tr>
        <td width="30%">
         <form name="openvpnserver_installcert" method="POST" action="/update.php" target="progressFrame">
-				<input type="hidden" name="#command" value="/plugins/openvpnserver/scripts/rc.openvpnserver">
+				<input type="hidden" name="#command" value="/plugins/openvpnserver-tun/scripts/rc.openvpnserver">
                 <input type="hidden" name="#arg[3]" value="download_easy-rsa">
                 <button style="font-size:15px">Install stable EASY-RSA 3.1.0 <i class="fa fa-download"></i></button>
 		</form>
@@ -267,11 +267,11 @@ if (file_exists("$SERVERCONFIGPATH/openvpnservercert.out"))
          <form name="openvpnserver_create_server_cert" method="POST" action="/update.php" target="progressFrame">
 		
 		<?if ($ovpncertsfolder!="yes"):?>
-				<input type="hidden" name="#command" value="/plugins/openvpnserver/scripts/rc.openvpnserver">
+				<input type="hidden" name="#command" value="/plugins/openvpnserver-tun/scripts/rc.openvpnserver">
                 <input type="hidden" name="#arg[4]" value="create_server_cert">
                 <button style="font-size:15px">Generate the server certificates and keys  <i class="fa fa-floppy-o"></i></button>
 		<?else:?> 
-		<input type="hidden" name="#command" value="/plugins/openvpnserver/scripts/rc.openvpnserver">
+		<input type="hidden" name="#command" value="/plugins/openvpnserver-tun/scripts/rc.openvpnserver">
                 <input type="hidden" name="#arg[4]" value="renew_server_cert">
                 <button style="font-size:15px">Regenerate the server certificates and keys  <i class="fa fa-refresh"></i></button>
 		 <blockquote class="inline_help">

@@ -1,6 +1,6 @@
 #!/bin/bash
-source /boot/config/plugins/openvpnserver/openvpnserver_cert.cfg
+source /boot/config/plugins/openvpnserver-tun/openvpnserver_cert.cfg
 if [[ "$DISCONNECT_ON_UMOUNT" == "yes" ]]; then
 	logger "Stopping OpenVPN Server"
-	/usr/local/emhttp/plugins/openvpnserver/scripts/rc.openvpnserver stop | logger
+	/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver stop | logger
 fi

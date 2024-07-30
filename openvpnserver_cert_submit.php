@@ -34,9 +34,9 @@ $arguments .= "EASYRSAREQOU_NEW=\"$EASYRSAREQOU\"\n";
 
 echo "Please wait while updating configuration for certs and Misc...";
 
-$file = "/usr/local/emhttp/plugins/openvpnserver/openvpnserver_cert.args";
+$file = "/usr/local/emhttp/plugins/openvpnserver-tun/openvpnserver_cert.args";
 file_put_contents($file, $arguments);
-shell_exec("/usr/local/emhttp/plugins/openvpnserver/scripts/rc.openvpnserver updatecfg_cert");
+shell_exec("/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver updatecfg_cert");
 ?>
 
 <HTML>

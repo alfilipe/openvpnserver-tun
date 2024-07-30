@@ -4,12 +4,12 @@ Title="Clients"
 
 <div>
 <table class="tablesorter openvpnserversettings">
-<thead><th colspan="2"><b>Client configuration: Add or revoke client:&nbsp;<img src='/plugins/openvpnserver/images/users.png'></b></th><th class="header"></th></thead>
+<thead><th colspan="2"><b>Client configuration: Add or revoke client:&nbsp;<img src='/plugins/openvpnserver-tun/images/users.png'></b></th><th class="header"></th></thead>
 <table class="tablesorter">
 
       <?if ($pids=="0"):?>
        <td>
-        <th colspan="2"><b>Status:&nbsp;</b><img src='/plugins/openvpnserver/images/device_status.png'>
+        <th colspan="2"><b>Status:&nbsp;</b><img src='/plugins/openvpnserver-tun/images/device_status.png'>
             <?if ($pids=="0"):?>
 		<span class="red"><b>Generating cert for the server is still running, please wait !!! refresh the page for progress updates.
             <?endif;?>
@@ -23,7 +23,7 @@ Title="Clients"
   <?endif;?>
 
 <?if (($ovpncertsoftware=="yes") && ($ovpncertsfolder=="yes") && ($pids!="0") && ($openvpnserver_config=="yes")):?> 
-	<form name="openvpnserver_newclient_settings" method="POST" action="/plugins/openvpnserver/openvpnserver_newclient_submit.php" target="progressFrame">
+	<form name="openvpnserver_newclient_settings" method="POST" action="/plugins/openvpnserver-tun/openvpnserver_newclient_submit.php" target="progressFrame">
 	<tr>
   <?if ($openvpnserver_running != "yes"):?>
 	 
@@ -67,7 +67,7 @@ Title="Clients"
   </tr>
 </form>
 
-<form name="openvpnserver_revoke_client_settings" method="POST" action="/plugins/openvpnserver/openvpnserver_revoke_client_submit.php" target="progressFrame">
+<form name="openvpnserver_revoke_client_settings" method="POST" action="/plugins/openvpnserver-tun/openvpnserver_revoke_client_submit.php" target="progressFrame">
 	<dl>
 	<td>
 		<?if ($openvpnserver_running != "yes"):?>
