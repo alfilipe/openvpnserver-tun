@@ -184,7 +184,7 @@ openvpnserver version 3 64Bit with easyrsa V3
 get from github as tarball
 -->
 <FILE Name="&plugin;/&name;-&version;.tar.gz">
-<URL>&gitpkgURL;&name;.tar.gz"</URL>
+<URL>"&gitURL;/archive/&version;.tar.gz"</URL>
 </FILE>
 
 <!--
