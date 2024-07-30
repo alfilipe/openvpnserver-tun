@@ -8,7 +8,7 @@
 <!ENTITY launch    "Settings/&name;">
 <!ENTITY gitURL    "https://github.com/&plgauthor;">
 <!ENTITY gitpkgURL    "&gitURL;/&name;/releases/download/&version;/">
-<!ENTITY pluginURL "https://raw.githubusercontent.com/&plgauthor;/openvpnserver/master/openvpn_server_x64.plg">
+<!ENTITY pluginURL "https://raw.githubusercontent.com/&plgauthor;/openvpnserver-tun/master/openvpn_server_x64.plg">
 <!ENTITY pkgURL	 "https://mirrors.slackware.com/slackware/">
 <!ENTITY pkgs 	    "/boot/packages/">
 <!ENTITY plugin	 "/boot/config/plugins/&name;">
