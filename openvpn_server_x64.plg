@@ -30,6 +30,10 @@
 
 <CHANGES>
 ##&name;
+###2024.07.31-tun
+- fixed bugs
+###2024.07.30-tun
+- converted to TUN device
 ###2023.07.24.04-tap
 - Install stable easy rsa 3.1.0 by default
 - Add Option for IPV6 networking
