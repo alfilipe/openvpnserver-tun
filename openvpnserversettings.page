@@ -55,19 +55,19 @@ $CHECKFOLDERVPN = trim($CHECKFOLDERVPNTMP);
 	</blockquote>
 
     <dl>
-      <dt>OpenVPN server IP</dt>
+      <dt>OpenVPN Network</dt>
       <dd><input type="text" style="width:25%" maxlength="15" name="NETWORK" id="NETWORK" required="required" value="<?=$openvpnserver_cfg['NETWORK'];?>" title="Default is 10.8.0.0, but can be set to any IP you like for the VPN server, example 10.10.0.0"></dd>
 	</dl>
 	<blockquote class="inline_help">
 		<p>Default server IP is <span class="green" style="font-weight: bold">10.8.0.0</span>, but can be set to any IP you like for the VPN server, example 10.10.0.0.</p>
 	</blockquote>
-	<dl>		
+	<!---dl>		
       <dt>Client DHCP Range</dt>
       <dd><input type="text" style="width:25%" maxlength="32" name="POOL" id="POOL"  required="required" value="<?=$openvpnserver_cfg['POOL'];?>" title="Example 192.168.20.2 192.168.20.30"</dd>
 	</dl>
 	<blockquote class="inline_help">
 		<p>Please Enter an DHCP Range e.G 192.168.20.10 192.168.20.30</p>
-	</blockquote>
+	</blockquote--->
 
 	<dl>		
       <dt>Netmask</dt>
@@ -93,27 +93,30 @@ $CHECKFOLDERVPN = trim($CHECKFOLDERVPNTMP);
 	 <dl>
       <dt>Pushing DHCP options to clients</dt>
 	  <dd><select name="DHCP_1" id="DHCP_1" size="1">
+        <?=mk_option($openvpnserver_cfg['DHCP_1'], "NO", "No");?>
         <?=mk_option($openvpnserver_cfg['DHCP_1'], "GOOGLE", "Google DNS");?>
         <?=mk_option($openvpnserver_cfg['DHCP_1'], "OPENDNS", "OpenDNS");?>
         <?=mk_option($openvpnserver_cfg['DHCP_1'], "dhcp-option DNS", "DNS Local gateway");?> 
       </select>
 	  </dd>
 	</dl>
-    <dl>
+    <!---dl>
       <dt>Push DNS Nameserver to Clients 1/3</dt>
 	  
       <dd><select name="DNS_1" id="DNS_1" size="1">
-      <?=mk_option($openvpnserver_cfg['DNS_1'], "GOOGLE", "Google DNS");?>
-      <?=mk_option($openvpnserver_cfg['DNS_1'], "OPENDNS", "OpenDNS");?>
-      <?=mk_option($openvpnserver_cfg['DNS_1'], "dhcp-option DNS", "DNS Local gateway");?>
+        <?=mk_option($openvpnserver_cfg['DHCP_1'], "NO", "No");?>
+        <?=mk_option($openvpnserver_cfg['DNS_1'], "GOOGLE", "Google DNS");?>
+        <?=mk_option($openvpnserver_cfg['DNS_1'], "OPENDNS", "OpenDNS");?>
+        <?=mk_option($openvpnserver_cfg['DNS_1'], "dhcp-option DNS", "DNS Local gateway");?>
       </select>
 	 </dd>
 	 </dl>
 		<blockquote class="inline_help">
+			<p>No -- Does not push DNSs</p>
 			<p>Google DNS -- Uses googles DNS (8.8.8.8 / 8.8.4.4)</p>
 			<p>OpenDNS -- Uses OpenDNS (208.67.222.222 / 208.67.222.220)</p>
 			<p>DNS Local gateway -- Set primary domain name server	  address to your gateway.</p>
-		</blockquote>
+		</blockquote--->
 
 
 	<dl>		

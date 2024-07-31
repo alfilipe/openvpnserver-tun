@@ -246,7 +246,8 @@ elif [ "$DHCP_1" == "OPENDNS" ]
 then
    echo "push "\""dhcp-option DNS 208.67.222.222""\"" >> $SERVER_PATH/openvpnserver.ovpn
    echo "push "\""dhcp-option DNS 208.67.222.220""\"" >> $SERVER_PATH/openvpnserver.ovpn
-else
+elif [ "$DHCP_1" == "dhcp-option DNS" ]
+then
 	LOCAL_GW=$(/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver get_gw)
 	echo "push "\"dhcp-option DNS $LOCAL_GW"\"" >> $SERVER_PATH/openvpnserver.ovpn
 fi
@@ -267,7 +268,9 @@ if [ "$DOMAIN" != "" ]; then
 	echo "push "\""dhcp-option DOMAIN $DOMAIN""\"" >> $SERVER_PATH/openvpnserver.ovpn
 fi
 
-if [ "$GATEWAY" != "Disable" ]; then
+if [ "$GATEWAY" != "redirect-gateway def1" ]; then
+	echo "push "\"$GATEWAY"\"" >> $SERVER_PATH/openvpnserver.ovpn
+elif [ "$GATEWAY" != "Disable" ]; then
 	echo "push "\"$GATEWAY"\"" >> $SERVER_PATH/openvpnserver.ovpn
 	echo "push "\"remote-gateway  $LOCAL_SERVER_IP"\"" >> $SERVER_PATH/openvpnserver.ovpn
 fi
@@ -327,8 +330,9 @@ if [ "$SUBNET" = "topology subnet" ]; then
 fi
 
 if [ "$LAN_SUBNET" = "Enable" ]; then
-	LANSUBNET=$(/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver get_subnet)
-	echo "push "\"route $LANSUBNET 255.255.255.0"\"" >> $SERVER_PATH/openvpnserver.ovpn
+	LANSUBNET_IP=$(/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver get_subnet_ip)
+	LANSUBNET_MASK=$(/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver get_subnet_mask)
+	echo "push "\"route $LANSUBNET_IP $LANSUBNET_MASK"\"" >> $SERVER_PATH/openvpnserver.ovpn
 	IP_ADDR="`echo $NETWORK | rev | sed s'/0/1/' | rev`"
 fi
 
@@ -337,8 +341,9 @@ echo "log-append /var/log/openvpnserver.log" >> $SERVER_PATH/openvpnserver.ovpn
 echo "status-version 2" >> $SERVER_PATH/openvpnserver.ovpn
 
 if [ "$TELNET_CONSOLE" = "yes" ]; then
-	SERVERIP=$(/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver serverip)
-	echo "management $SERVERIP 10000" >> $SERVER_PATH/openvpnserver.ovpn
+	#SERVERIP=$(/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver serverip)
+  IP_ADDR="`echo $NETWORK | rev | sed s'/0/1/' | rev`"
+	echo "management $IP_ADDR 10000" >> $SERVER_PATH/openvpnserver.ovpn
 fi
 
 if [ "$IP_PORT_SHARE" != "" ]; then
@@ -375,11 +380,19 @@ openvpnserver_get_def_gw()
    echo $GW
 }
 
-openvpnserver_get_subnet()
+openvpnserver_get_subnet_ip()
 {
-   GW_SUB=$(/sbin/ip route | awk '/default/ { print $3 }')
+   #GW_SUB=$(/sbin/ip route | awk '/default/ { print $3 }')
+   NIC=$(ip -4 route ls | grep default | grep -Po '(?<=dev )(\S+)' | head -1)
+   GW_SUB=$(ifconfig $NIC | awk '/inet/{ print $2;} ')
    SUBNET_IP="${GW_SUB%.*}.0"
    echo $SUBNET_IP
+}
+openvpnserver_get_subnet_mask()
+{
+   NIC=$(ip -4 route ls | grep default | grep -Po '(?<=dev )(\S+)' | head -1)
+   SUBNET_MASK=$(ifconfig $NIC | awk '/inet/{ print $4;} ')
+   echo $SUBNET_MASK
 }
 
 openvpnserver_get_default_server()
@@ -1046,8 +1059,11 @@ case "$1" in
   'get_gw')
    openvpnserver_get_def_gw
    ;;
-   'get_subnet')
-   openvpnserver_get_subnet
+   'get_subnet_ip')
+   openvpnserver_get_subnet_ip
+   ;;
+   'get_subnet_mask')
+   openvpnserver_get_subnet_mask
    ;;
   'get_vpnserver')
    openvpnserver_get_vpnserver
