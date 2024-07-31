@@ -1,4 +1,4 @@
-Menu="openvpnserver:5"
+Menu="openvpnserver-tun:5"
 Title="Download client's file"
 ---
 <div>

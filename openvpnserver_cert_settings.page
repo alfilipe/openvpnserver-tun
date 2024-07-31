@@ -1,4 +1,4 @@
-Menu="openvpnserver:1"
+Menu="openvpnserver-tun:1"
 Title="Cert and Misc Settings "
 ---
 <?php
