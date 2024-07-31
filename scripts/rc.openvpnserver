@@ -268,7 +268,7 @@ if [ "$DOMAIN" != "" ]; then
 	echo "push "\""dhcp-option DOMAIN $DOMAIN""\"" >> $SERVER_PATH/openvpnserver.ovpn
 fi
 
-if [ "$GATEWAY" != "redirect-gateway def1" ]; then
+if [ "$GATEWAY" == "redirect-gateway def1" ]; then
 	echo "push "\"$GATEWAY"\"" >> $SERVER_PATH/openvpnserver.ovpn
 elif [ "$GATEWAY" != "Disable" ]; then
 	echo "push "\"$GATEWAY"\"" >> $SERVER_PATH/openvpnserver.ovpn
