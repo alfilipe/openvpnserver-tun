@@ -341,9 +341,10 @@ echo "log-append /var/log/openvpnserver.log" >> $SERVER_PATH/openvpnserver.ovpn
 echo "status-version 2" >> $SERVER_PATH/openvpnserver.ovpn
 
 if [ "$TELNET_CONSOLE" = "yes" ]; then
-	#SERVERIP=$(/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver serverip)
-  IP_ADDR="`echo $NETWORK | rev | sed s'/0/1/' | rev`"
-	echo "management $IP_ADDR 10000" >> $SERVER_PATH/openvpnserver.ovpn
+	SERVERIP=$(/usr/local/emhttp/plugins/openvpnserver-tun/scripts/rc.openvpnserver serverip)
+	echo "management $SERVERIP 10000" >> $SERVER_PATH/openvpnserver.ovpn
+  #IP_ADDR="`echo $NETWORK | rev | sed s'/0/1/' | rev`"
+	#echo "management $IP_ADDR 10000" >> $SERVER_PATH/openvpnserver.ovpn
 fi
 
 if [ "$IP_PORT_SHARE" != "" ]; then
