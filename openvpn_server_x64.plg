@@ -4,7 +4,7 @@
 <!ENTITY name      "openvpnserver-tun">
 <!ENTITY author    "alfilipe">
 <!ENTITY plgauthor    "alfilipe">
-<!ENTITY version   "2024.07.31-tun">
+<!ENTITY version   "2024.07.31.01-tun">
 <!ENTITY launch    "Settings/&name;">
 <!ENTITY gitURL    "https://github.com/&plgauthor;">
 <!ENTITY gitpkgURL    "&gitURL;/&name;/releases/download/&version;/">
@@ -30,6 +30,8 @@
 
 <CHANGES>
 ##&name;
+###2024.07.31.0-tun
+- fixed settings page
 ###2024.07.31-tun
 - fixed bugs
 ###2024.07.30-tun
