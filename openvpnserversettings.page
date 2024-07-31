@@ -1,5 +1,5 @@
 
-Menu="openvpnserver:2"
+Menu="openvpnserver-tun:2"
 Title="Server config"
 Markdown="false"
 ---
